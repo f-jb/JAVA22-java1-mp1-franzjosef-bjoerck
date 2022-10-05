@@ -1,37 +1,36 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        boolean play = true;
-        while (play) {
-            int totalGuesses = 0;
-            int number = generateNumber();
-            System.out.println("I am thinking of a number between 0 - 100. Guess!");
-            boolean won;
-            do {
-                won = checkNumber(getNumber(), number);
-                totalGuesses++;
-            } while (!won);
-            System.out.println("It took you " + totalGuesses + (totalGuesses == 1 ? " guess." : " guesses."));
-            play = continuePlay();
-        }
-        System.out.println("Bye!");
-    }
+        boolean mainLoop = true;
+        while (mainLoop) {
+            boolean loop = true;
+            System.out.println("Hello, welcome to fjbs game corner!");
+            System.out.println("Please choose a game.");
+            System.out.println("1. Guess the number");
+            System.out.println("2. Nim");
+            System.out.println("9. Quit");
+            while (loop) {
+                int choice = getNumber();
+                switch (choice) {
+                    case 1 -> {
+                        loop=false;
+                        GuessNumber.main();
+                    }
+                    case 2 -> {
+                        loop=false;
+                        Nim.main();
+                    }
+                    case 9 -> {
+                        loop = false;
+                        mainLoop= false;
+                        System.out.println("Bye!");
+                    }
+                    default -> System.out.println("Please choose a valid number.");
+                }
 
-    static int generateNumber() {
-        return new Random().nextInt(101);
-    }
-
-    static boolean checkNumber(int guess, int number) {
-        if (guess == number) {
-            return true;
-        } else if (guess > number) {
-            System.out.println("Too high!");
-        } else {
-            System.out.println("Too low!");
+            }
         }
-        return false;
 
     }
 
@@ -42,20 +41,5 @@ public class Main {
             sc.nextLine();
         }
         return sc.nextInt();
-    }
-
-    static boolean continuePlay() {
-        Scanner sc = new Scanner(System.in);
-        String s;
-        do {
-            System.out.println("Continue? y/n");
-            s = sc.nextLine();
-            if (s.equalsIgnoreCase("y")) {
-                return true;
-            } else if (s.equalsIgnoreCase("n")) {
-                return false;
-            }
-        } while (!s.equals("y") && !s.equals("n"));
-        return true;
     }
 }

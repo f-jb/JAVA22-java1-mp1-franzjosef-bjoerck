@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Nim {
-    public static void main(String[] args) {
+    public static void main() {
         boolean playerOne = true;
         boolean play = true;
         int[] board = {1, 3, 5, 7};
@@ -33,6 +33,7 @@ public class Nim {
             }
 
         }
+        System.out.println("Bye!");
     }
 
     static void decrease(int[] board, int row, int amountToDecrease) {
