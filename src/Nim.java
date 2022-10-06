@@ -41,6 +41,7 @@ public class Nim {
 
 
     static void main() {
+        System.out.println("Rules: Take turns choosing a row and the amount to remove. The players that removes the last item wins.");
         Board board = new Board();
         boolean playerOne = true;
         boolean play = true;
@@ -60,7 +61,7 @@ public class Nim {
                 if (legalMove) {
                     board.decrease(gameMove);
                     if (board.checkWin()) {
-                        System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "!");
+                        System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "! You win!");
                         play = UserInput.continuePlay();
                         if (play){
                             board.reset();
