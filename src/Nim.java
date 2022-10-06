@@ -1,30 +1,70 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Nim {
-    public static void main() {
-        boolean playerOne = true;
-        boolean play = true;
-        int[] board = {1, 3, 5, 7};
-        while (play) {
-            System.out.println("Player " + (playerOne ? "1" : "2") + " turn.");
+    static class Board {
+        public int[] board = {1, 3, 5, 7};
+
+        void decrease(GameMove gameMove) {
+            board[gameMove.row] -= gameMove.amountToDecrease;
+        }
+        void reset() {
+            board = new int[]{1, 3, 5, 7};
+        }
+
+        void printBoard() {
             for (int i = 0; i < board.length; i++) {
                 System.out.println(i + 1 + " (" + board[i] + "): " + "#".repeat(board[i]));
             }
+        }
+
+        boolean checkMove(GameMove gameMove) {
+            if (gameMove.row + 1 > board.length) {
+                System.out.println("Illegal move: Please choose a legal row.");
+                return false;
+            } else if (gameMove.amountToDecrease > board[gameMove.row]) {
+                System.out.println("Illegal move: Can't go into negative.");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        boolean checkWin() {
+            int[] arr = board.clone();
+            Arrays.sort(arr);
+            return arr[arr.length - 1] == 0;
+        }
+    }
+
+    record GameMove(int row, int amountToDecrease) {
+    }
+
+
+    static void main() {
+        Board board = new Board();
+        boolean playerOne = true;
+        boolean play = true;
+        while (play) {
+            System.out.println("Player " + (playerOne ? "1" : "2") + " turn.");
+            board.printBoard();
             int row;
             int amountToDecrease;
             boolean legalMove = false;
             while (!legalMove) {
                 System.out.println("Choose a row.");
-                row = getNumber() - 1;
+                row = UserInput.getInt() - 1;
                 System.out.println("How much to remove?");
-                amountToDecrease = getNumber();
-                legalMove = checkMove(board, row, amountToDecrease);
+                amountToDecrease = UserInput.getInt();
+                GameMove gameMove = new GameMove(row, amountToDecrease);
+                legalMove = board.checkMove(gameMove);
                 if (legalMove) {
-                    decrease(board, row, amountToDecrease);
-                    if (checkWin(board)) {
+                    board.decrease(gameMove);
+                    if (board.checkWin()) {
                         System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "!");
-                        play = continuePlay();
+                        play = UserInput.continuePlay();
+                        if (play){
+                            board.reset();
+                        }
 
                     } else {
                         playerOne = !playerOne;
@@ -34,51 +74,5 @@ public class Nim {
 
         }
         System.out.println("Bye!");
-    }
-
-    static void decrease(int[] board, int row, int amountToDecrease) {
-        board[row] -= amountToDecrease;
-    }
-
-    static int getNumber() {
-        Scanner sc = new Scanner(System.in);
-        while (!sc.hasNextInt()) {
-            System.out.println("Please, only numbers.");
-            sc.nextLine();
-        }
-        return sc.nextInt();
-    }
-
-    static boolean checkWin(int[] board) {
-        int[] arr = board.clone();
-        Arrays.sort(arr);
-        return arr[arr.length - 1] == 0;
-    }
-
-    static boolean checkMove(int[] board, int row, int amountToDecrease) {
-        if (row + 1 > board.length) {
-            System.out.println("Illegal move: Please choose a legal row.");
-            return false;
-        } else if (amountToDecrease > board[row]) {
-            System.out.println("Illegal move: Can't go into negative.");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    static boolean continuePlay() {
-        Scanner sc = new Scanner(System.in);
-        String s;
-        do {
-            System.out.println("Continue? y/n");
-            s = sc.nextLine();
-            if (s.equalsIgnoreCase("y")) {
-                return true;
-            } else if (s.equalsIgnoreCase("n")) {
-                return false;
-            }
-        } while (!s.equals("y") && !s.equals("n"));
-        return true;
     }
 }

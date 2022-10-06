@@ -1,7 +1,6 @@
 import java.util.Random;
-import java.util.Scanner;
 
-public class GuessNumber{
+public class GuessNumber {
     public static void main() {
         boolean play = true;
         while (play) {
@@ -10,11 +9,11 @@ public class GuessNumber{
             System.out.println("I am thinking of a number between 0 - 100. Guess!");
             boolean won;
             do {
-                won = checkNumber(getNumber(), number);
+                won = checkNumber(UserInput.getInt(), number);
                 totalGuesses++;
             } while (!won);
             System.out.println("It took you " + totalGuesses + (totalGuesses == 1 ? " guess." : " guesses."));
-            play = continuePlay();
+            play = UserInput.continuePlay();
         }
         System.out.println("Bye!");
     }
@@ -32,30 +31,5 @@ public class GuessNumber{
             System.out.println("Too low!");
         }
         return false;
-
-    }
-
-    static int getNumber() {
-        Scanner sc = new Scanner(System.in);
-        while (!sc.hasNextInt()) {
-            System.out.println("Please, only numbers.");
-            sc.nextLine();
-        }
-        return sc.nextInt();
-    }
-
-    static boolean continuePlay() {
-        Scanner sc = new Scanner(System.in);
-        String s;
-        do {
-            System.out.println("Continue? y/n");
-            s = sc.nextLine();
-            if (s.equalsIgnoreCase("y")) {
-                return true;
-            } else if (s.equalsIgnoreCase("n")) {
-                return false;
-            }
-        } while (!s.equals("y") && !s.equals("n"));
-        return true;
     }
 }
