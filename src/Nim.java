@@ -78,28 +78,24 @@ public class Nim {
                         System.out.println("""
                                 1. Play against""" + (playAgainstComputer ? " human?" : " computer?") + "\n" +
                                 """
-                                2. Difficulty
-                                9. Back""");
+                                        2. Difficulty
+                                        9. Back""");
                         int settingsChoice = UserInput.getInt();
                         switch (settingsChoice) {
-                            case 1 -> {
-                                playAgainstComputer = !playAgainstComputer;
-                            }
+                            case 1 -> playAgainstComputer = !playAgainstComputer;
                             case 2 -> {
                                 boolean difficultyLoop = true;
                                 while (difficultyLoop) {
-                                    System.out.println("""
-                                            Select difficulty:
-                                            1. Super easy
-                                            2. Easy
-                                            3. Normal
-                                            4. Hard
-                                            5. Impossible
-                                            9. Back
-                                            """);
+                                    System.out.println("Select difficulty:\n" +
+                                                        "1. Super easy" + (difficulty == 1? "   <---\n":"\n") +
+                                                        "2. Easy" + (difficulty == 2? "   <---\n":"\n") +
+                                                        "3. Normal" + (difficulty == 3? "   <---\n":"\n") +
+                                                        "4. Hard" + (difficulty == 4? "   <---\n":"\n") +
+                                                        "5. Impossible" + (difficulty == 5? "   <---\n":"\n") +
+                                                        "9. Back");
                                     int difficultyChoice = UserInput.getInt();
                                     if (difficultyChoice >= 1 && difficultyChoice <= 5) {
-                                        difficulty = difficultyChoice - 1;
+                                        difficulty = difficultyChoice;
                                     } else if (difficultyChoice == 9) {
                                         difficultyLoop = false;
 
@@ -133,23 +129,29 @@ public class Nim {
         while (play) {
             System.out.println("Player " + (playerOne ? "1" : "2") + " turn.");
             board.printBoard();
-            boolean legalMove = false;
-            while (!legalMove) {
-                GameMove playerMove = new GameMove(0, 0).getMove();
-                legalMove = board.checkMove(playerMove);
-                if (legalMove) {
-                    board.decrease(playerMove);
-                    if (board.checkWin()) {
-                        System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "! You win!");
-                        play = UserInput.continuePlay();
-                        if (play) {
-                            board.reset();
-                        }
 
-                    } else {
-                        playerOne = !playerOne;
+            if (playAgainstComputer && !playerOne) {
+                GameMove computerMove = NimGameLogic.ComputerPlayer(board, difficulty);
+                System.out.println("Computer removes " + computerMove.amountToDecrease + " from row " + computerMove.row);
+                board.decrease(computerMove);
+            } else {
+                boolean legalMove = false;
+                while (!legalMove) {
+                    GameMove playerMove = new GameMove(0, 0).getMove();
+                    legalMove = board.checkMove(playerMove);
+                    if (legalMove) {
+                        board.decrease(playerMove);
                     }
                 }
+            }
+            if (board.checkWin()) {
+                System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "! You win!");
+                play = UserInput.continuePlay();
+                if (play) {
+                    board.reset();
+                }
+            } else {
+                playerOne = !playerOne;
             }
 
         }
