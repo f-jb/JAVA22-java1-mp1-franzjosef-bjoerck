@@ -36,7 +36,16 @@ public class Nim {
         }
     }
 
-    record GameMove(int row, int amountToDecrease) {
+    static class GameMove{
+        int row;
+        int amountToDecrease;
+        GameMove getMove(){
+            System.out.println("Choose a row.");
+            this.row = UserInput.getInt() - 1;
+            System.out.println("How much to remove?");
+            this.amountToDecrease = UserInput.getInt();
+            return this;
+        }
     }
 
 
@@ -48,18 +57,12 @@ public class Nim {
         while (play) {
             System.out.println("Player " + (playerOne ? "1" : "2") + " turn.");
             board.printBoard();
-            int row;
-            int amountToDecrease;
             boolean legalMove = false;
             while (!legalMove) {
-                System.out.println("Choose a row.");
-                row = UserInput.getInt() - 1;
-                System.out.println("How much to remove?");
-                amountToDecrease = UserInput.getInt();
-                GameMove gameMove = new GameMove(row, amountToDecrease);
-                legalMove = board.checkMove(gameMove);
+                GameMove playerMove = new GameMove().getMove();
+                legalMove = board.checkMove(playerMove);
                 if (legalMove) {
-                    board.decrease(gameMove);
+                    board.decrease(playerMove);
                     if (board.checkWin()) {
                         System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "! You win!");
                         play = UserInput.continuePlay();
