@@ -7,6 +7,7 @@ public class Nim {
         void decrease(GameMove gameMove) {
             board[gameMove.row] -= gameMove.amountToDecrease;
         }
+
         void reset() {
             board = new int[]{1, 3, 5, 7};
         }
@@ -30,19 +31,25 @@ public class Nim {
         }
 
         boolean checkWin() {
-            int[] arr = board.clone();
-            Arrays.sort(arr);
-            return arr[arr.length - 1] == 0;
+            int[] tempBoard = board.clone();
+            Arrays.sort(tempBoard);
+            return tempBoard[tempBoard.length - 1] == 0;
         }
     }
 
-    static class GameMove{
+    static class GameMove {
         int row;
         int amountToDecrease;
-        GameMove getMove(){
-            System.out.println("Choose a row.");
+
+        GameMove(int row, int amountToDecrease) {
+            this.row = row;
+            this.amountToDecrease = amountToDecrease;
+        }
+
+        GameMove getMove() {
+            System.out.println("Choose a row:");
             this.row = UserInput.getInt() - 1;
-            System.out.println("How much to remove?");
+            System.out.println("Choose how much to remove:");
             this.amountToDecrease = UserInput.getInt();
             return this;
         }
@@ -50,7 +57,76 @@ public class Nim {
 
 
     static void main() {
-        System.out.println("Rules: Take turns choosing a row and the amount to remove. The players that removes the last item wins.");
+        int difficulty = 3;
+        boolean playAgainstComputer = false;
+
+        System.out.println("""
+                1. Play
+                2. Settings
+                9. Quit
+                """);
+
+        boolean menuLoop = true;
+        while (menuLoop) {
+            int menuChoice = UserInput.getInt();
+            switch (menuChoice) {
+                case 1 -> menuLoop = false;
+                case 2 -> {
+                    menuLoop = false;
+                    boolean settingsLoop = true;
+                    while (settingsLoop) {
+                        System.out.println("""
+                                1. Play against""" + (playAgainstComputer ? " human?" : " computer?") + "\n" +
+                                """
+                                2. Difficulty
+                                9. Back""");
+                        int settingsChoice = UserInput.getInt();
+                        switch (settingsChoice) {
+                            case 1 -> {
+                                playAgainstComputer = !playAgainstComputer;
+                            }
+                            case 2 -> {
+                                boolean difficultyLoop = true;
+                                while (difficultyLoop) {
+                                    System.out.println("""
+                                            Select difficulty:
+                                            1. Super easy
+                                            2. Easy
+                                            3. Normal
+                                            4. Hard
+                                            5. Impossible
+                                            9. Back
+                                            """);
+                                    int difficultyChoice = UserInput.getInt();
+                                    if (difficultyChoice >= 1 && difficultyChoice <= 5) {
+                                        difficulty = difficultyChoice - 1;
+                                    } else if (difficultyChoice == 9) {
+                                        difficultyLoop = false;
+
+                                    } else {
+                                        System.out.println("Please choose a valid number.");
+                                    }
+                                }
+                            }
+                            case 9 -> settingsLoop = false;
+                            default -> System.out.println("Please choose a valid number.");
+                        }
+                    }
+                }
+                case 9 -> {
+                    menuLoop = false;
+                    System.out.println("Bye!");
+                }
+                default -> System.out.println("Please choose a valid number.");
+            }
+        }
+
+        System.out.println("""
+                Rules:
+                1. Take turns choosing a row and the amount to remove.
+                2. The players that removes the last item wins.
+                3. The winning player starts the next round.
+                """);
         Board board = new Board();
         boolean playerOne = true;
         boolean play = true;
@@ -59,14 +135,14 @@ public class Nim {
             board.printBoard();
             boolean legalMove = false;
             while (!legalMove) {
-                GameMove playerMove = new GameMove().getMove();
+                GameMove playerMove = new GameMove(0, 0).getMove();
                 legalMove = board.checkMove(playerMove);
                 if (legalMove) {
                     board.decrease(playerMove);
                     if (board.checkWin()) {
                         System.out.println("Congratulations to player " + (playerOne ? "1" : "2") + "! You win!");
                         play = UserInput.continuePlay();
-                        if (play){
+                        if (play) {
                             board.reset();
                         }
 

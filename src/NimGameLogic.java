@@ -15,6 +15,7 @@ public class NimGameLogic {
         }
 
         return new Nim.GameMove(1, 3);
+      //  return ;
     }
 
     static int getNimsum(int[] board) {// gets the nimsum of the board
