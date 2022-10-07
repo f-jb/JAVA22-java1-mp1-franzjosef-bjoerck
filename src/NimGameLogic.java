@@ -53,9 +53,6 @@ public class NimGameLogic {
                 }
             }
         }
-        for (int[] ints : choice) {
-            System.out.println(ints[0] + " " + ints[1]);
-        }
         // Chooses random result
 
         Nim.GameMove gameMove = new Nim.GameMove(0,0);

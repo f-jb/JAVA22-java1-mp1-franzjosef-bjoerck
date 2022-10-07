@@ -9,6 +9,11 @@ public class UserInput {
         }
         return sc.nextInt();
     }
+    static String getString(){
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
+
+    }
 
     static boolean continuePlay() {
         Scanner sc = new Scanner(System.in);

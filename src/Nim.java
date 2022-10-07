@@ -112,6 +112,7 @@ public class Nim {
                 case 9 -> {
                     menuLoop = false;
                     System.out.println("Bye!");
+                    return;
                 }
                 default -> System.out.println("Please choose a valid number.");
             }
@@ -132,7 +133,7 @@ public class Nim {
 
             if (playAgainstComputer && !playerOne) {
                 GameMove computerMove = NimGameLogic.ComputerPlayer(board, difficulty);
-                System.out.println("Computer removes " + computerMove.amountToDecrease + " from row " + computerMove.row);
+                System.out.println("Computer removes " + computerMove.amountToDecrease + " from row " + computerMove.row +1);
                 board.decrease(computerMove);
             } else {
                 boolean legalMove = false;

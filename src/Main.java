@@ -8,6 +8,7 @@ public class Main {
                                 Please choose a game.
                                 1. Guess the number
                                 2. Nim
+                                8. Global Thermonuclear War
                                 9. Quit
                                 """);
             while (menuLoop) {
@@ -20,6 +21,11 @@ public class Main {
                     case 2 -> {
                         menuLoop = false;
                         Nim.main();
+                    }
+                    case 8->{
+                        System.out.println("Enter password:");
+                        String password = UserInput.getString();
+                        System.out.println(password.equals("Joshua")?"GREETINGS PROFESSOR FALKEN.":"ACCESS DENIED.");
                     }
                     case 9 -> {
                         menuLoop = false;
