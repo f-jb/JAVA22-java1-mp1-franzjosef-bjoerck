@@ -2,6 +2,33 @@ import java.util.Random;
 
 public class GuessNumber {
     public static void main() {
+        HighScore.Entry[] highScore;
+        String highScoreFile = "NimHighScore.dat";
+        if (FileHandler.doesFileExist(highScoreFile)) {
+            highScore = FileHandler.readFile(highScoreFile);
+        } else {
+            highScore = new HighScore.Entry[10];
+            for (int i = 0; i < highScore.length; i++) {
+                highScore[i] = new HighScore.Entry();
+            }
+        }
+        boolean menuLoop = true;
+        while (menuLoop) {
+            System.out.println("""
+                    1. Play
+                    2. Highscores
+                    9. Quit""");
+            int menuChoice = UserInput.getInt();
+            switch (menuChoice) {
+                case 1 -> menuLoop = false;
+                case 2 -> HighScore.displayAll(highScore);
+                case 9 -> {
+                    System.out.println("Bye!");
+                    return;
+                }
+                default -> System.out.println("Please choose a valid number.");
+            }
+        }
         boolean play = true;
         while (play) {
             int totalGuesses = 0;
@@ -13,6 +40,13 @@ public class GuessNumber {
                 totalGuesses++;
             } while (!won);
             System.out.println("It took you " + totalGuesses + (totalGuesses == 1 ? " guess." : " guesses."));
+            if (HighScore.placedOnBoard(highScore, totalGuesses)) {
+                String name = UserInput.getName();
+                HighScore.Entry newRecord = new HighScore.Entry(name, totalGuesses);
+                highScore = HighScore.addEntry(highScore, newRecord);
+                FileHandler.writeFile(highScore, highScoreFile);
+                HighScore.displayAll(highScore);
+            }
             play = UserInput.continuePlay();
         }
         System.out.println("Bye!");

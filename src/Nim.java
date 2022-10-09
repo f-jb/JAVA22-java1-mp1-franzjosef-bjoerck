@@ -110,7 +110,6 @@ public class Nim {
                     }
                 }
                 case 9 -> {
-                    menuLoop = false;
                     System.out.println("Bye!");
                     return;
                 }
@@ -133,7 +132,7 @@ public class Nim {
 
             if (playAgainstComputer && !playerOne) {
                 GameMove computerMove = NimGameLogic.ComputerPlayer(board, difficulty);
-                System.out.println("Computer removes " + computerMove.amountToDecrease + " from row " + computerMove.row +1);
+                System.out.println("Computer removes " + computerMove.amountToDecrease + " from row " + (computerMove.row +1) );
                 board.decrease(computerMove);
             } else {
                 boolean legalMove = false;

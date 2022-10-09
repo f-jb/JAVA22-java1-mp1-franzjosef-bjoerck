@@ -14,6 +14,15 @@ public class UserInput {
         return sc.nextLine();
 
     }
+    static String getName(){
+        Scanner sc = new Scanner(System.in);
+        String name;
+        do {
+            System.out.println("Please enter name. Max 16 characters.");
+            name = sc.nextLine();
+        } while ((name.length() > 16) || name.isBlank());
+        return name;
+    }
 
     static boolean continuePlay() {
         Scanner sc = new Scanner(System.in);
