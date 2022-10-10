@@ -24,7 +24,7 @@ public class HighScore {
             if (entry.score < list[i].score) {
                 System.arraycopy(list, 0, result, 0, i);
                 result[i] = entry;
-                System.arraycopy(list, i, result, i + 1, list.length - 1);
+                System.arraycopy(list, i, result, i + 1, list.length - i - 1);
                 return result;
             }
         }
