@@ -41,9 +41,7 @@ public class GuessNumber {
             } while (!won);
             System.out.println("It took you " + totalGuesses + (totalGuesses == 1 ? " guess." : " guesses."));
             if (HighScore.placedOnBoard(highScore, totalGuesses)) {
-                String name = UserInput.getName();
-                HighScore.Entry newRecord = new HighScore.Entry(name, totalGuesses);
-                highScore = HighScore.addEntry(highScore, newRecord);
+                highScore = HighScore.addEntry(highScore, new HighScore.Entry(UserInput.getName(), totalGuesses));
                 FileHandler.writeFile(highScore, highScoreFile);
                 HighScore.displayAll(highScore);
             }
