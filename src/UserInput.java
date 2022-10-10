@@ -38,4 +38,14 @@ public class UserInput {
         } while (!s.equals("y") && !s.equals("n"));
         return true;
     }
+
+    public static char getChar() {
+        Scanner sc = new Scanner(System.in);
+        String guessedLetter;
+        do {
+            System.out.println("Please enter a letter.");
+            guessedLetter= sc.nextLine();
+        } while (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0)));
+        return guessedLetter.toLowerCase().charAt(0);
+    }
 }

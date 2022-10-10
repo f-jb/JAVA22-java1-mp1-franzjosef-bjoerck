@@ -4,13 +4,14 @@ public class Main {
         while (mainLoop) {
             boolean menuLoop = true;
             System.out.println("""
-                                Hello, welcome to fjbs game corner!
-                                Please choose a game.
-                                1. Guess the number
-                                2. Nim
-                                8. Global Thermonuclear War
-                                9. Quit
-                                """);
+                    Hello, welcome to fjbs game corner!
+                    Please choose a game.
+                    1. Guess the number
+                    2. Nim
+                    3. Hangman
+                    8. Global Thermonuclear War
+                    9. Quit
+                    """);
             while (menuLoop) {
                 int menuChoice = UserInput.getInt();
                 switch (menuChoice) {
@@ -22,10 +23,14 @@ public class Main {
                         menuLoop = false;
                         Nim.main();
                     }
-                    case 8->{
+                    case 3 -> {
+                        menuLoop = false;
+                        HangMan.main();
+                    }
+                    case 8 -> {
                         System.out.println("Enter password:");
                         String password = UserInput.getString();
-                        System.out.println(password.equals("Joshua")?"GREETINGS PROFESSOR FALKEN.":"ACCESS DENIED.");
+                        System.out.println(password.equals("Joshua") ? "GREETINGS PROFESSOR FALKEN." : "ACCESS DENIED.");
                     }
                     case 9 -> {
                         menuLoop = false;
